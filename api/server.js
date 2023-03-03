@@ -31,7 +31,7 @@ app.get("/paciente/:id", (req, res) => {
 
 app.get("/paciente/:email/:senha", (req, res) => {
   connection.query(
-    "select * from pacientes where email = ? and senha = ?",
+    "select * from pacientes where email = ? and password = ?",
     [req.params.email, req.params.senha],
     (error, results, fields) => {
       if (error) throw error;
