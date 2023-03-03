@@ -9,6 +9,8 @@ const connection = mysql.createConnection({
   database: "topicos_clinica",
 });
 
+app.use(express.json());
+
 app.get("/paciente", function (req, res) {
   connection.query(
     "select * from pacientes",
@@ -31,10 +33,9 @@ app.get("/paciente/:id", function (req, res) {
 });
 
 app.post("/paciente", function (req, res) {
-  const paciente = req.body;
   connection.query(
-    "INSERT INTO pacientes SET ?",
-    paciente,
+    "INSERT INTO pacientes (nome, email,senha, endereco) values (?,?,?,?)",
+    [req.body.nome, req.body.email, req.body.senha, req.body.endereco],
     function (error, results, fields) {
       if (error) throw error;
       res.send("Dados inseridos com sucesso!");
