@@ -4,9 +4,9 @@ const app = express();
 
 const connection = mysql.createConnection({
   host: "db4free.net",
-  user: "****",
-  password: "****",
-  database: "****",
+  user: "clinicamedica",
+  password: "clinicamedica",
+  database: "topicos_clinica",
 });
 
 app.use(express.json());
