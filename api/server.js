@@ -4,100 +4,115 @@ const app = express();
 
 const connection = mysql.createConnection({
   host: "db4free.net",
-  user: "******",
-  password: "******",
-  database: "******",
+  user: "****",
+  password: "****",
+  database: "****",
 });
 
 app.use(express.json());
 
-app.get("/paciente", function (req, res) {
-  connection.query(
-    "select * from pacientes",
-    function (error, results, fields) {
-      if (error) throw error;
-      res.send(results);
-    }
-  );
+app.get("/paciente", (req, res) => {
+  connection.query("select * from pacientes", (error, results, fields) => {
+    if (error) throw error;
+    res.send(results);
+  });
 });
 
-app.get("/paciente/:id", function (req, res) {
+app.get("/paciente/:id", (req, res) => {
   connection.query(
     "SELECT * FROM pacientes WHERE id = ?",
     [req.params.id],
-    function (error, results, fields) {
+    (error, results, fields) => {
       if (error) throw error;
       res.send(results[0]);
     }
   );
 });
 
-app.get("/agendamento", function (req, res) {
+app.get("/paciente/:email/:senha", (req, res) => {
   connection.query(
-    "select * from agendamentos",
-    function (error, results, fields) {
+    "select * from pacientes where email = ? and senha = ?",
+    [req.params.email, req.params.senha],
+    (error, results, fields) => {
+      if (error) throw error;
+      res.send(results[0]);
+    }
+  );
+});
+
+app.get("/agendamento", (req, res) => {
+  connection.query("select * from agendamentos", (error, results, fields) => {
+    if (error) throw error;
+    res.send(results);
+  });
+});
+
+app.get("/agendamento/:id", (req, res) => {
+  connection.query(
+    "select * from agendamentos where paciente=?",
+    [req.params.id],
+    (error, results, fields) => {
       if (error) throw error;
       res.send(results);
     }
   );
 });
 
-app.get("/agendamento/:id", function (req, res) {
+app.get("/agendamento/:data/:horario/:medico", (req, res) => {
   connection.query(
-    "select * from agendamentos where paciente=?",[req.params.id],
-    function (error, results, fields) {
+    "select * from agendamentos where data=? and horario=? and medico=?",
+    [req.params.data, req.params.horario, req.params.medico],
+     (error, results, fields) =>{
       if (error) throw error;
       res.send(results);
     }
   );
 });
 
-app.get("/agendamento/:data/:horario/:medico", function (req, res) {
-  connection.query(
-    "select * from agendamentos where data=? and horario=? and medico=?",[req.params.data, req.params.horario, req.params.medico],
-    function (error, results, fields) {
-      if (error) throw error;
-      res.send(results);
-    }
-  );
-});
-
-app.post("/paciente", function (req, res) {
+app.post("/paciente", (req, res) => {
   connection.query(
     "INSERT INTO pacientes (nome, email,senha, endereco) values (?,?,?,?)",
     [req.body.nome, req.body.email, req.body.senha, req.body.endereco],
-    function (error, results, fields) {
+     (error, results, fields) => {
       if (error) throw error;
       res.send("Dados inseridos com sucesso!");
     }
   );
 });
 
-app.post("/agendamento", function (req,res){
-  connection.query('insert into agendamentos (data, horario, paciente, medico) values (?,?,?,?)',[req.body.data, req.body.horario, req.body.paciente, req.body.medico], function(error, results, fields){
-    if(error) throw error;
-    res.send("Consulta Agendada com Sucesso")
-  })
-})
+app.post("/agendamento", (req, res) => {
+  connection.query(
+    "insert into agendamentos (data, horario, paciente, medico) values (?,?,?,?)",
+    [req.body.data, req.body.horario, req.body.paciente, req.body.medico],
+     (error, results, fields) =>{
+      if (error) throw error;
+      res.send("Consulta Agendada com Sucesso");
+    }
+  );
+});
 
-app.delete("/paciente/:id", function (req, res) {
+app.delete("/paciente/:id", (req, res) => {
   connection.query(
     "DELETE FROM pacientes WHERE id = ?",
     [req.params.id],
-    function (error, results, fields) {
+     (error, results, fields) => {
       if (error) throw error;
       res.send("Registro excluído com sucesso!");
     }
   );
 });
 
-app.delete("/agendamento/:id", function(req, res){
-  connection.query("delete from agendamentos where id = ?", req.params.id, function (error, results, fields){
-    if(error) throw error
-    res.send("Consulta apagada com sucesso")
-  })
-})
+app.delete("/agendamento/:id", (req, res) => {
+  connection.query(
+    "delete from agendamentos where id = ?",
+    req.params.id,
+     (error, results, fields) => {
+      if (error) throw error;
+      res.send("Consulta apagada com sucesso");
+    }
+  );
+});
 
-app.listen(3000, function () {
+app.listen(3000, () => {
   console.log("Servidor rodando na porta 3000");
 });
