@@ -71,8 +71,8 @@ app.get("/agendamento/:data/:horario/:medico", (req, res) => {
 
 app.post("/paciente", (req, res) => {
   connection.query(
-    "INSERT INTO pacientes (nome,idade,endereco,celular,sexo,email,password,num) values (?,?,?,?,?,?,?,?)",
-    [req.body.nome, req.body.idade, req.body.endereco, req.body.celular, req.body.sexo, req.body.email, req.body.password, req.body.num],
+    "INSERT INTO pacientes (nome,idade,endereco,telefone,sexo,email,password,num) values (?,?,?,?,?,?,?,?)",
+    [req.body.nome, req.body.idade, req.body.endereco, req.body.telefone, req.body.sexo, req.body.email, req.body.password, req.body.num],
      (error, results, fields) => {
       if (error) throw error;
       res.send("Dados inseridos com sucesso!");
