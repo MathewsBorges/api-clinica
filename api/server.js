@@ -100,7 +100,7 @@ app.post("/agendamento", (req, res) => {
   );
 });
 
-app.put("paciente/:id", (req, res) => {
+app.put("/paciente/:id", (req, res) => {
   const id = req.params.id
   const sql ="update pacientes set nome=?, idade=?,endereco=?,telefone=?,sexo=?,password=? where id=?";
   const { nome, idade, endereco, telefone, sexo, password} = req.body;
