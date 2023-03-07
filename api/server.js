@@ -62,7 +62,7 @@ app.get("/agendamento/:data/:horario/:medico", (req, res) => {
   connection.query(
     "select * from agendamentos where data=? and horario=? and medico=?",
     [req.params.data, req.params.horario, req.params.medico],
-     (error, results, fields) =>{
+    (error, results, fields) => {
       if (error) throw error;
       res.send(results);
     }
@@ -72,8 +72,17 @@ app.get("/agendamento/:data/:horario/:medico", (req, res) => {
 app.post("/paciente", (req, res) => {
   connection.query(
     "INSERT INTO pacientes (nome,idade,endereco,telefone,sexo,email,password,num) values (?,?,?,?,?,?,?,?)",
-    [req.body.nome, req.body.idade, req.body.endereco, req.body.telefone, req.body.sexo, req.body.email, req.body.password, req.body.num],
-     (error, results, fields) => {
+    [
+      req.body.nome,
+      req.body.idade,
+      req.body.endereco,
+      req.body.telefone,
+      req.body.sexo,
+      req.body.email,
+      req.body.password,
+      req.body.num,
+    ],
+    (error, results, fields) => {
       if (error) throw error;
       res.send("Dados inseridos com sucesso!");
     }
@@ -84,18 +93,28 @@ app.post("/agendamento", (req, res) => {
   connection.query(
     "insert into agendamentos (data, horario, paciente, medico) values (?,?,?,?)",
     [req.body.data, req.body.horario, req.body.paciente, req.body.medico],
-     (error, results, fields) =>{
+    (error, results, fields) => {
       if (error) throw error;
       res.send("Consulta Agendada com Sucesso");
     }
   );
 });
 
+app.put("paciente/:id", (req, res) => {
+  const id = req.params.id
+  const sql ="update pacientes set nome=?, idade=?,endereco=?,telefone=?,sexo=?,password=? where id=?";
+  const { nome, idade, endereco, telefone, sexo, password} = req.body;
+  connection.query(sql, [nome,idade,endereco,telefone,sexo,password, id], (error, results,fields)=>{
+    if(error) throw error;
+    res.send("Cadastro editado com Sucesso");
+  });
+});
+
 app.delete("/paciente/:id", (req, res) => {
   connection.query(
     "DELETE FROM pacientes WHERE id = ?",
     [req.params.id],
-     (error, results, fields) => {
+    (error, results, fields) => {
       if (error) throw error;
       res.send("Registro excluído com sucesso!");
     }
@@ -106,7 +125,7 @@ app.delete("/agendamento/:id", (req, res) => {
   connection.query(
     "delete from agendamentos where id = ?",
     req.params.id,
-     (error, results, fields) => {
+    (error, results, fields) => {
       if (error) throw error;
       res.send("Consulta apagada com sucesso");
     }
