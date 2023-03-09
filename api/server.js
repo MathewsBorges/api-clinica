@@ -29,7 +29,7 @@ app.get("/paciente/:id", (req, res) => {
   );
 });
 
-app.get("/paciente/:email", (req,res) =>{
+app.get("/paciente/pacientes/:email", (req,res) =>{
 connection.query("select * from pacientes where email = ?", [req.params.email], (error, results, fields)=>{
 if(error) throw error;
   res.send(results[0]);
