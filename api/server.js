@@ -127,6 +127,16 @@ app.put("/paciente/:id/consulta", (req, res) =>{
 
 })
 
+app.put("/paciente/:id/less", (req, res) =>{
+  const id = req.params.id;
+  const sql = "update pacientes set num=num-1 where id=?"
+  connection.query(sql, [id], (error,fields, results) =>{
+    if(error) throw error;
+    res.send("Consulta Adicionada ao Paciente");
+  })
+
+})
+
 app.delete("/paciente/:id", (req, res) => {
   connection.query(
     "DELETE FROM pacientes WHERE id = ?",
