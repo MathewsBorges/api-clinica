@@ -99,7 +99,7 @@ app.post("/paciente", (req, res) => {
 app.post("/agendamento", (req, res) => {
   connection.query(
     "insert into agendamentos (data, horario, paciente, medico) values (?,?,?,?)",
-    [req.body.data, req.body.horario, req.body.paciente, req.body.medico],
+    [req.body.data, req.body.horario, req.body.paciente.id, req.body.medico],
     (error, results, fields) => {
       if (error) throw error;
       res.send("Consulta Agendada com Sucesso");
