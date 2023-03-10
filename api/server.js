@@ -120,7 +120,7 @@ app.put("/paciente/:id", (req, res) => {
 app.put("/paciente/:id/consulta", (req, res) =>{
   const id = req.params.id;
   const sql = "update pacientes set num=num+1 where id=?"
-  connection.query(sql, [id], (error,fields, results) =>{
+  connection.query(sql, id, (error,fields, results) =>{
     if(error) throw error;
     res.send("Consulta Adicionada ao Paciente");
   })
@@ -130,9 +130,9 @@ app.put("/paciente/:id/consulta", (req, res) =>{
 app.put("/paciente/:id/less", (req, res) =>{
   const id = req.params.id;
   const sql = "update pacientes set num=num-1 where id=?"
-  connection.query(sql, [id], (error,fields, results) =>{
+  connection.query(sql, id, (error,fields, results) =>{
     if(error) throw error;
-    res.send("Consulta Adicionada ao Paciente");
+    res.send("Consulta removida");
   })
 
 })
